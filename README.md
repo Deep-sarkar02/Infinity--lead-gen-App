@@ -40,9 +40,10 @@ See [client/README.md](./client/README.md) for details.
 
 ## Deploy (free)
 
-Host on **[Render](https://render.com)** — static frontend + Node API, connected to MongoDB Atlas.
+**Vercel (whole app):** one project — React PWA + API on the same URL.  
+Guide: [docs/DEPLOY.md](./docs/DEPLOY.md)
 
-Full guide: [docs/DEPLOY.md](./docs/DEPLOY.md)
+**Render (alternative):** separate static site + API via `render.yaml`.
 
 ## Quick summary
 

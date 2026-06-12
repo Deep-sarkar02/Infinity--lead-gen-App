@@ -1,123 +1,122 @@
 # Deploy IL Scout (free hosting)
 
-Recommended stack: **[Render](https://render.com)** (frontend + API) + **MongoDB Atlas** (already set up) + **Firebase** (auth).
+## Option A — Vercel (whole app, recommended)
 
-| Service | Platform | Cost |
-|---------|----------|------|
-| React PWA | Render Static Site | Free |
-| Express API | Render Web Service | Free |
-| Database | MongoDB Atlas | Free tier |
-| Auth | Firebase | Free tier |
+One Vercel project hosts **both** the React PWA and the Express API on the same domain.
 
-## Why Render?
+| Part | How |
+|------|-----|
+| React PWA | Static files from `client/dist` |
+| Express API | Serverless function at `/api/*` |
+| Database | MongoDB Atlas |
+| Auth | Firebase |
 
-- Connects directly to your GitHub repo — auto-deploy on push
-- Supports both Vite static sites and Node/Express in one project
-- No code changes beyond env vars
-- Free tier is enough for volunteer lead collection
-
-**Trade-off:** The free API sleeps after ~15 minutes of inactivity. The first request after sleep may take 30–60 seconds (cold start). The app UI loads instantly; only API calls are slow on wake-up.
+**Pros:** Single URL, fast global CDN, auto-deploy from GitHub, no separate API host.  
+**Trade-off:** API runs as serverless — first request after idle may take a few seconds (MongoDB connect).
 
 ---
 
-## Step 1 — Push latest code
+### 1. MongoDB Atlas
 
-Ensure deployment files are on GitHub:
-
-```bash
-git add .
-git commit -m "Add Render deployment config"
-git push
-```
+1. [cloud.mongodb.com](https://cloud.mongodb.com) → your cluster  
+2. **Network Access** → **Allow Access from Anywhere** (`0.0.0.0/0`)  
+3. Copy your connection string (database: `infinity_runner`)
 
 ---
 
-## Step 2 — MongoDB Atlas
+### 2. Import project on Vercel
 
-1. [cloud.mongodb.com](https://cloud.mongodb.com) → your cluster
-2. **Network Access** → **Add IP Address** → **Allow Access from Anywhere** (`0.0.0.0/0`)  
-   Required so Render’s servers can reach Atlas.
-3. Copy your connection string (database: `infinity_runner`).
-
----
-
-## Step 3 — Deploy on Render
-
-1. Sign up at [render.com](https://render.com) (use **Sign in with GitHub**).
-2. **New** → **Blueprint**.
-3. Connect repo: `Deep-sarkar02/Infinity--lead-gen-App`.
-4. Render reads `render.yaml` and creates two services:
-   - `il-scout-api` — Node API
-   - `il-scout-app` — static React app
-5. When prompted, paste secrets:
-
-   **API service (`il-scout-api`):**
-
-   | Variable | Value |
-   |----------|-------|
-   | `MONGODB_URI` | Your Atlas connection string |
-   | `GUPSHUP_*` | From `server/.env` (optional for SMS/WhatsApp) |
-
-   **Static site (`il-scout-app`):**
-
-   | Variable | Value |
-   |----------|-------|
-   | `VITE_FIREBASE_API_KEY` | From `client/.env` |
-   | `VITE_FIREBASE_AUTH_DOMAIN` | From `client/.env` |
-   | `VITE_FIREBASE_PROJECT_ID` | From `client/.env` |
-   | `VITE_FIREBASE_APP_ID` | From `client/.env` |
-   | `VITE_API_URL` | API URL from Render, e.g. `https://il-scout-api.onrender.com` |
-
-6. Click **Apply**. Wait for both services to finish deploying.
-
-> **Important:** Set `VITE_API_URL` to the **API** service URL (no trailing slash). If you deploy the API first, copy its URL, add it to the static site env vars, then **Manual Deploy → Clear build cache & deploy** on the frontend.
+1. Go to [vercel.com/new](https://vercel.com/new) → **Sign in with GitHub**  
+2. **Import** `Deep-sarkar02/Infinity--lead-gen-App`  
+3. Leave settings as detected from `vercel.json`:
+   - **Root Directory:** `.` (repo root)
+   - **Build Command:** `npm run build --prefix client`
+   - **Output Directory:** `client/dist`
+   - **Install Command:** `npm install && npm run install:all`
 
 ---
 
-## Step 4 — Firebase authorized domains
+### 3. Environment variables
 
-1. [Firebase Console](https://console.firebase.google.com) → your project → **Authentication** → **Settings** → **Authorized domains**
-2. Add your Render app URL, e.g. `il-scout-app.onrender.com`
+In Vercel → Project → **Settings** → **Environment Variables**, add:
 
-Without this, Google sign-in fails on production.
+**Firebase (required for Google sign-in):**
+
+| Name | Value |
+|------|-------|
+| `VITE_FIREBASE_API_KEY` | from `client/.env` |
+| `VITE_FIREBASE_AUTH_DOMAIN` | from `client/.env` |
+| `VITE_FIREBASE_PROJECT_ID` | from `client/.env` |
+| `VITE_FIREBASE_APP_ID` | from `client/.env` |
+
+**API / database (required):**
+
+| Name | Value |
+|------|-------|
+| `MONGODB_URI` | Atlas connection string |
+
+**Gupshup (optional — SMS / WhatsApp on lead add):**
+
+| Name | Value |
+|------|-------|
+| `GUPSHUP_API_KEY` | from `server/.env` |
+| `GUPSHUP_SOURCE` | from `server/.env` |
+| `GUPSHUP_APP_NAME` | from `server/.env` |
+| `GUPSHUP_TEMPLATE_ID` | from `server/.env` |
+| `GUPSHUP_SMS_USERID` | from `server/.env` |
+| `GUPSHUP_SMS_PASSWORD` | from `server/.env` |
+
+> **Do not set `VITE_API_URL`** on Vercel — the API is on the same domain at `/api/...`.
+
+Apply to **Production**, **Preview**, and **Development**.
 
 ---
 
-## Step 5 — Verify
+### 4. Deploy
 
-1. Open `https://il-scout-app.onrender.com` (your static site URL)
-2. Sign in with Google (or Demo Mode)
-3. Add a test lead — check it appears under View Leads
-4. API health: `https://il-scout-api.onrender.com/health` → `{"ok":true}`
+Click **Deploy**. Wait for the build to finish (~2–3 min).
+
+Your app URL will look like: `https://infinity-lead-gen-app.vercel.app`
 
 ---
 
-## Seed production database (once)
+### 5. Firebase authorized domains
 
-From your machine (with Atlas access):
+1. [Firebase Console](https://console.firebase.google.com) → **Authentication** → **Settings** → **Authorized domains**  
+2. Add your Vercel domain, e.g. `infinity-lead-gen-app.vercel.app`
+
+---
+
+### 6. Verify
+
+1. Open your Vercel URL  
+2. **Continue in Demo Mode** or sign in with Google  
+3. Add a test lead → check **View Leads**  
+4. Health check: `https://YOUR-APP.vercel.app/health` → `{"ok":true}`
+
+---
+
+### 7. Seed database (once, from your machine)
 
 ```bash
 cd server
 npm run db:seed
 ```
 
-Or use MongoDB Compass / Atlas UI to confirm collections exist.
+---
+
+## Option B — Render (frontend + API split)
+
+See `render.yaml` in the repo root. Full steps:
+
+1. [render.com](https://render.com) → **New** → **Blueprint** → connect GitHub repo  
+2. Set env vars for both services (frontend needs `VITE_API_URL` pointing to the Render API URL)  
+3. Add Render domain to Firebase authorized domains  
+
+Details unchanged from the Render blueprint — API sleeps on free tier after 15 min idle.
 
 ---
 
 ## Custom domain (optional)
 
-Render free tier supports custom domains on both services. Point DNS to Render and add the domain in each service’s settings.
-
----
-
-## Alternatives
-
-| Platform | Best for | Notes |
-|----------|----------|-------|
-| [Vercel](https://vercel.com) | Frontend only | Excellent CDN; pair with Render/Railway for API |
-| [Netlify](https://netlify.com) | Frontend only | Same as Vercel |
-| [Fly.io](https://fly.io) | Full-stack | More setup; small free allowance |
-| [Railway](https://railway.app) | API | Limited free credits |
-
-For the least friction with this repo, stick with **Render for both**.
+Both Vercel and Render support custom domains on free tiers. Add the domain in the platform dashboard and update Firebase authorized domains.

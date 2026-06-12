@@ -9,6 +9,9 @@
     "install:all": "npm install --prefix client && npm install --prefix server",
     "tunnel": "npx cloudflared tunnel --url http://localhost:5173"
   },
+  "dependencies": {
+    "serverless-http": "^3.2.0"
+  },
   "devDependencies": {
     "concurrently": "^9.2.1"
   }
