@@ -1,0 +1,139 @@
+/**
+ * Infinity Learn — official color palette
+ * Extracted from assets/infinity-learn-color-palette.png
+ */
+
+:root {
+  /* Primary — Blue */
+  --il-blue-10: #012f63;
+  --il-blue-20: #014a99;
+  --il-blue-30: #0162c9;
+  --il-blue-40: #027bfe;
+  --il-blue-50: #3395ff;
+  --il-blue-60: #67b0fd;
+  --il-blue-70: #98caff;
+  --il-blue-80: #cbe5fe;
+  --il-blue-90: #e6f2ff;
+  --il-blue-95: #f3f9ff;
+  --il-blue-100: #ffffff;
+
+  /* Secondary — Yellow */
+  --il-yellow-10: #312b11;
+  --il-yellow-20: #625721;
+  --il-yellow-30: #968535;
+  --il-yellow-40: #cab14a;
+  --il-yellow-50: #fcde5c;
+  --il-yellow-60: #fde57b;
+  --il-yellow-70: #faea9d;
+  --il-yellow-80: #fef3bd;
+  --il-yellow-90: #fef8de;
+  --il-yellow-95: #fffbef;
+  --il-yellow-100: #ffffff;
+
+  /* Tertiary — Orange */
+  --il-orange-10: #331700;
+  --il-orange-20: #623202;
+  --il-orange-30: #9b4900;
+  --il-orange-40: #cd6202;
+  --il-orange-50: #ff7900;
+  --il-orange-60: #ff9533;
+  --il-orange-70: #ffb169;
+  --il-orange-80: #fbcb9d;
+  --il-orange-90: #ffe4cc;
+  --il-orange-95: #fff0e0;
+  --il-orange-100: #ffffff;
+
+  /* Neutral */
+  --il-neutral-10: #090e14;
+  --il-neutral-20: #21262c;
+  --il-neutral-30: #393e44;
+  --il-neutral-40: #52555c;
+  --il-neutral-50: #6d6e72;
+  --il-neutral-60: #86878b;
+  --il-neutral-70: #9d9ea0;
+  --il-neutral-80: #cdced0;
+  --il-neutral-90: #e6e7e9;
+  --il-neutral-100: #ffffff;
+
+  /* Success — Green */
+  --il-success-20: #002008;
+  --il-success-30: #043716;
+  --il-success-40: #015821;
+  --il-success-50: #01752c;
+  --il-success-60: #37c65a;
+  --il-success-70: #5ad67e;
+  --il-success-80: #83d894;
+  --il-success-90: #ade6bb;
+  --il-success-95: #d5f5de;
+
+  /* Error — Red */
+  --il-error-20: #2e0203;
+  --il-error-30: #570905;
+  --il-error-40: #8c1207;
+  --il-error-50: #b62a1d;
+  --il-error-60: #ee413a;
+  --il-error-70: #f36a5a;
+  --il-error-80: #ee9287;
+  --il-error-90: #f9b3ab;
+  --il-error-95: #fdebeb;
+
+  /* Warning — Amber */
+  --il-warning-20: #2f1f06;
+  --il-warning-30: #573601;
+  --il-warning-40: #8a5100;
+  --il-warning-50: #b46d03;
+  --il-warning-60: #ffab00;
+  --il-warning-70: #ffbc35;
+  --il-warning-80: #ffcb6d;
+  --il-warning-90: #fddb9b;
+  --il-warning-95: #feeecc;
+
+  /* Purple */
+  --il-purple-10: #5835b7;
+  --il-purple-20: #603bc9;
+  --il-purple-30: #683fd9;
+  --il-purple-40: #7045ed;
+  --il-purple-50: #7b4bff;
+  --il-purple-60: #956fff;
+  --il-purple-70: #ac8bfc;
+  --il-purple-80: #bba3fb;
+  --il-purple-90: #d4c4fd;
+  --il-purple-95: #e8deff;
+  --il-purple-100: #f5f0ff;
+
+  /* Text */
+  --il-text-primary: #101010;
+  --il-text-secondary: #666666;
+  --il-text-muted: #a9a9a9;
+  --il-text-disabled: #d9d9d9;
+  --il-text-hint: #f5f5f5;
+
+  /* Background */
+  --il-bg-navy: #00364e;
+  --il-bg-white: #ffffff;
+  --il-bg-blue-tint: #d4e8ff;
+  --il-bg-grey-tint: #f1f2f6;
+
+  /* Gradient */
+  --il-gradient-primary: linear-gradient(180deg, #0162c9 0%, #012f63 100%);
+
+  /* Semantic aliases (app usage) */
+  --il-primary: var(--il-blue-30);
+  --il-primary-dark: var(--il-blue-10);
+  --il-primary-hover: var(--il-blue-20);
+  --il-primary-light: var(--il-blue-90);
+  --il-white: var(--il-neutral-100);
+  --il-gray-50: var(--il-bg-grey-tint);
+  --il-gray-100: var(--il-neutral-90);
+  --il-gray-400: var(--il-neutral-60);
+  --il-gray-600: var(--il-neutral-50);
+  --il-gray-900: var(--il-text-primary);
+  --il-success: var(--il-success-60);
+  --il-success-bg: var(--il-success-95);
+  --il-warning: var(--il-warning-60);
+  --il-warning-bg: var(--il-warning-95);
+  --il-error: var(--il-error-60);
+  --il-pastel-blue: var(--il-blue-90);
+  --il-pastel-green: var(--il-success-95);
+  --il-pastel-yellow: var(--il-yellow-95);
+}
