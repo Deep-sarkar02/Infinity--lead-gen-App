@@ -1,6 +1,7 @@
 {
   "name": "infinity-runner-app",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "dev:client": "npm run dev --prefix client",
@@ -10,9 +11,15 @@
     "tunnel": "npx cloudflared tunnel --url http://localhost:5173"
   },
   "dependencies": {
-    "serverless-http": "^3.2.0"
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^8.19.4"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.3"
   }
 }

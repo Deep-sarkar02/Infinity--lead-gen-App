@@ -141,8 +141,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInDemo = useCallback(async () => {
     const res = await fetch("/api/v1/auth/demo", { method: "POST" });
-    const data = await res.json();
+    const text = await res.text();
+    let data: { user?: UserRecord; summary?: LeadSummary; error?: string };
+    try {
+      data = JSON.parse(text) as typeof data;
+    } catch {
+      throw new Error(text || "Demo sign-in failed");
+    }
     if (!res.ok) throw new Error(data.error ?? "Demo sign-in failed");
+    if (!data.user || !data.summary) {
+      throw new Error("Demo sign-in returned an invalid response");
+    }
     localStorage.setItem(
       DEMO_STORAGE_KEY,
       JSON.stringify({ user: data.user, summary: data.summary }),

@@ -181,5 +181,21 @@ export function buildApp() {
     return res.json({ min_leads: minLeads, runners });
   });
 
+  app.use(
+    (
+      err: unknown,
+      _req: express.Request,
+      res: express.Response,
+      _next: express.NextFunction,
+    ) => {
+      console.error("Unhandled API error:", err);
+      if (!res.headersSent) {
+        res.status(500).json({
+          error: err instanceof Error ? err.message : "Internal server error",
+        });
+      }
+    },
+  );
+
   return app;
 }

@@ -1,6 +1,4 @@
-import serverless from "serverless-http";
 import { buildApp } from "../server/src/app.js";
 
-const app = buildApp();
-
-export default serverless(app);
+// Vercel runs Express apps as a native serverless function (no serverless-http wrapper).
+export default buildApp();
