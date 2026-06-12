@@ -4,5 +4,6 @@ node_modules/
 !.env.example
 dist/
 dist-ssr/
+server/dist/
 *.local
 .DS_Store
