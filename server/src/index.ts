@@ -30,6 +30,10 @@ const PORT = process.env.PORT ?? 3001;
 app.use(cors());
 app.use(express.json());
 
+app.get("/health", (_req, res) => {
+  res.json({ ok: true });
+});
+
 app.post("/api/v1/auth/sync", async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {

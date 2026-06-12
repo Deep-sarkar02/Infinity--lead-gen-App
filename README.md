@@ -38,6 +38,12 @@ Click **Continue in Demo Mode** on login (no Firebase needed).
 
 See [client/README.md](./client/README.md) for details.
 
+## Deploy (free)
+
+Host on **[Render](https://render.com)** — static frontend + Node API, connected to MongoDB Atlas.
+
+Full guide: [docs/DEPLOY.md](./docs/DEPLOY.md)
+
 ## Quick summary
 
 - **Auth:** Firebase Google sign-in (no password / OTP / other providers)

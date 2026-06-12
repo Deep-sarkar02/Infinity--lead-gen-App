@@ -1,0 +1,54 @@
+# Render Blueprint — deploy both frontend + API from GitHub in one click.
+# Dashboard: https://dashboard.render.com → New → Blueprint → connect this repo.
+#
+# After deploy, set VITE_API_URL on the static site to your API URL and redeploy.
+
+services:
+  - type: web
+    name: il-scout-api
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: MONGODB_URI
+        sync: false
+      - key: GUPSHUP_API_KEY
+        sync: false
+      - key: GUPSHUP_SOURCE
+        sync: false
+      - key: GUPSHUP_APP_NAME
+        sync: false
+      - key: GUPSHUP_TEMPLATE_ID
+        sync: false
+      - key: GUPSHUP_SMS_USERID
+        sync: false
+      - key: GUPSHUP_SMS_PASSWORD
+        sync: false
+
+  - type: web
+    name: il-scout-app
+    runtime: static
+    rootDir: client
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_FIREBASE_API_KEY
+        sync: false
+      - key: VITE_FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: VITE_FIREBASE_PROJECT_ID
+        sync: false
+      - key: VITE_FIREBASE_APP_ID
+        sync: false
+      - key: VITE_API_URL
+        sync: false
