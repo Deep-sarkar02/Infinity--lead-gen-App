@@ -10,7 +10,8 @@
     "db:seed": "tsx src/seed.ts",
     "db:test-leads": "tsx src/seed-test-leads.ts",
     "db:clear-leads": "tsx src/clear-leads.ts",
-    "db:sync-milestones": "tsx src/sync-milestones.ts"
+    "db:sync-milestones": "tsx src/sync-milestones.ts",
+    "webhook:test": "tsx src/test-webhook.ts"
   },
   "dependencies": {
     "cors": "^2.8.6",

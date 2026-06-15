@@ -4,6 +4,7 @@ import type {
   PendingMilestone,
   UserRecord,
   WalletItem,
+  WhatsAppQrInfo,
 } from "./types";
 
 const API_BASE = (import.meta.env.VITE_API_URL as string | undefined)?.replace(
@@ -65,6 +66,15 @@ export const getPendingMilestone = (token: string) =>
 
 export const acknowledgeMilestone = (token: string, id: string) =>
   apiFetch<{ ok: boolean }>(`/api/v1/milestones/${id}/acknowledge`, {
+    method: "POST",
+    token,
+  });
+
+export const getWhatsAppQr = (token: string) =>
+  apiFetch<WhatsAppQrInfo>("/api/v1/profile/whatsapp-qr", { token });
+
+export const generateWhatsAppQr = (token: string) =>
+  apiFetch<WhatsAppQrInfo>("/api/v1/profile/whatsapp-qr", {
     method: "POST",
     token,
   });

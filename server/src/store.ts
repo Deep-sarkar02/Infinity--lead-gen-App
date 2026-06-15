@@ -14,7 +14,9 @@ import type {
   RunnerLeadStats,
   UserRecord,
   WalletItem,
+  WhatsAppQrInfo,
 } from "./types.js";
+import { buildScoutRef, buildWhatsAppQrUrl } from "./whatsapp-qr.js";
 
 function isDuplicateKeyError(error: unknown): boolean {
   return (
@@ -32,6 +34,8 @@ function toUserRecord(user: {
   full_name: string;
   photo_url?: string | null;
   verified_lead_count: number;
+  whatsapp_qr_url?: string | null;
+  whatsapp_qr_generated_at?: Date | null;
   created_at: Date;
   updated_at: Date;
 }): UserRecord {
@@ -42,6 +46,9 @@ function toUserRecord(user: {
     full_name: user.full_name,
     photo_url: user.photo_url ?? null,
     verified_lead_count: user.verified_lead_count,
+    whatsapp_qr_url: user.whatsapp_qr_url ?? null,
+    whatsapp_qr_generated_at:
+      user.whatsapp_qr_generated_at?.toISOString() ?? null,
     created_at: user.created_at.toISOString(),
     updated_at: user.updated_at.toISOString(),
   };
@@ -159,6 +166,48 @@ export async function getUserByFirebaseUid(
 ): Promise<UserRecord | null> {
   const user = await UserModel.findOne({ firebase_uid });
   return user ? toUserRecord(user) : null;
+}
+
+function toWhatsAppQrInfo(user: {
+  whatsapp_qr_url?: string | null;
+  whatsapp_qr_generated_at?: Date | null;
+}): WhatsAppQrInfo {
+  const url = user.whatsapp_qr_url ?? null;
+  return {
+    generated: Boolean(url),
+    url,
+    generated_at: user.whatsapp_qr_generated_at?.toISOString() ?? null,
+  };
+}
+
+export async function getWhatsAppQrForUser(
+  userId: string,
+): Promise<WhatsAppQrInfo | null> {
+  const user = await UserModel.findOne({ id: userId }).lean();
+  if (!user) return null;
+  return toWhatsAppQrInfo(user);
+}
+
+export async function generateWhatsAppQrForUser(
+  userId: string,
+): Promise<WhatsAppQrInfo | null> {
+  const user = await UserModel.findOne({ id: userId });
+  if (!user) return null;
+
+  if (user.whatsapp_qr_url) {
+    return toWhatsAppQrInfo(user);
+  }
+
+  const now = new Date();
+  if (!user.scout_ref) {
+    user.scout_ref = buildScoutRef(user.id);
+  }
+  user.whatsapp_qr_url = buildWhatsAppQrUrl(user.full_name, user.scout_ref);
+  user.whatsapp_qr_generated_at = now;
+  user.updated_at = now;
+  await user.save();
+
+  return toWhatsAppQrInfo(user);
 }
 
 export async function getLeadsForUser(userId: string): Promise<Lead[]> {

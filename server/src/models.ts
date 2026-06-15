@@ -8,6 +8,9 @@ const userSchema = new Schema(
     full_name: { type: String, required: true },
     photo_url: { type: String, default: null },
     verified_lead_count: { type: Number, default: 0 },
+    whatsapp_qr_url: { type: String, default: null },
+    whatsapp_qr_generated_at: { type: Date, default: null },
+    scout_ref: { type: String, default: null, unique: true, sparse: true },
     created_at: { type: Date, required: true },
     updated_at: { type: Date, required: true },
   },
@@ -24,6 +27,8 @@ const leadSchema = new Schema(
     student_phone: { type: String, required: true, unique: true },
     status: { type: String, required: true, default: "unverified" },
     verified_at: { type: Date, default: null },
+    whatsapp_replied_at: { type: Date, default: null },
+    whatsapp_reply_text: { type: String, default: null },
     created_at: { type: Date, required: true },
   },
   { versionKey: false },
@@ -58,7 +63,28 @@ const milestoneEventSchema = new Schema(
 
 milestoneEventSchema.index({ user_id: 1, milestone_number: 1 }, { unique: true });
 
+const whatsAppInboundSchema = new Schema(
+  {
+    id: { type: String, required: true, unique: true },
+    gupshup_message_id: { type: String, default: null, index: true, sparse: true },
+    from_phone: { type: String, required: true, index: true },
+    to_phone: { type: String, default: null },
+    message_text: { type: String, required: true },
+    sender_name: { type: String, default: null },
+    scout_ref: { type: String, default: null, index: true },
+    lead_id: { type: String, default: null, index: true },
+    volunteer_id: { type: String, default: null, index: true },
+    raw_payload: { type: Schema.Types.Mixed, default: null },
+    received_at: { type: Date, required: true },
+  },
+  { versionKey: false },
+);
+
 export const UserModel = mongoose.model("User", userSchema);
 export const LeadModel = mongoose.model("Lead", leadSchema);
 export const WalletItemModel = mongoose.model("WalletItem", walletItemSchema);
 export const MilestoneEventModel = mongoose.model("MilestoneEvent", milestoneEventSchema);
+export const WhatsAppInboundModel = mongoose.model(
+  "WhatsAppInbound",
+  whatsAppInboundSchema,
+);

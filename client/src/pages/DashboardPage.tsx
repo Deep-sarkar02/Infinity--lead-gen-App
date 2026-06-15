@@ -7,6 +7,7 @@ import { LeadActivityCard, LeadSummaryActivityCard } from "@/components/LeadActi
 import { MilestoneModal } from "@/components/MilestoneModal";
 import { MobileHeroCarousel } from "@/components/MobileHeroCarousel";
 import { MobileHomeHeader } from "@/components/MobileHomeHeader";
+import { WhatsAppQrCtaCard } from "@/components/WhatsAppQrCtaCard";
 import { PageHeader } from "@/components/PageHeader";
 import { QuickActionPills } from "@/components/QuickActionPills";
 import { StatCard } from "@/components/StatCard";
@@ -88,6 +89,8 @@ function DashboardContent() {
         </div>
         <QuickActionPills walletCount={walletCount} />
       </div>
+
+      <WhatsAppQrCtaCard />
 
       <section className="lg:hidden">
         <div className="mb-4 flex items-end justify-between gap-3">

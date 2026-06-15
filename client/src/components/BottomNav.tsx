@@ -10,7 +10,7 @@ export function BottomNav() {
       className="pointer-events-none fixed bottom-0 left-0 right-0 z-40 flex justify-center px-6 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] pt-2 lg:hidden"
       aria-label="Main navigation"
     >
-      <div className="pointer-events-auto flex items-center gap-8 rounded-full bg-white px-7 py-2.5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]">
+      <div className="pointer-events-auto flex items-center gap-6 rounded-full bg-white px-6 py-2.5 shadow-[0_6px_24px_rgba(0,0,0,0.12)]">
         {mobileBottomNavItems.map((item) => {
           const active = isNavActive(pathname, item.href);
 

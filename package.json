@@ -8,7 +8,8 @@
     "dev:server": "npm run dev --prefix server",
     "build": "npm run build --prefix client",
     "install:all": "npm install --prefix client && npm install --prefix server",
-    "tunnel": "npx cloudflared tunnel --url http://localhost:5173"
+    "tunnel": "npx cloudflared tunnel --url http://localhost:5173",
+    "tunnel:api": "npx cloudflared tunnel --url http://localhost:3001"
   },
   "dependencies": {
     "cors": "^2.8.6",

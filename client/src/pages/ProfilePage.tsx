@@ -6,6 +6,7 @@ import { ProfileInfoCard } from "@/components/profile/ProfileInfoCard";
 import { ProfileSignOutButton } from "@/components/profile/ProfileSignOutButton";
 import { ProfileStatsRow } from "@/components/profile/ProfileStatsRow";
 import { ProfileWalletCard } from "@/components/profile/ProfileWalletCard";
+import { ProfileWhatsAppQrCard } from "@/components/profile/ProfileWhatsAppQrCard";
 import { useAuth } from "@/lib/auth";
 
 function ProfileContent() {
@@ -21,6 +22,7 @@ function ProfileContent() {
       <div className="mx-auto flex max-w-lg flex-col gap-4 lg:gap-6">
         <ProfileInfoCard />
         <ProfileStatsRow summary={summary} />
+        <ProfileWhatsAppQrCard />
         <ProfileWalletCard />
         <ProfileSignOutButton onSignOut={() => signOut()} />
       </div>

@@ -11,8 +11,9 @@ export const primaryNavItems: NavItem[] = [
   { href: "/profile", label: "Profile", icon: "profile" },
 ];
 
-/** Mobile bottom nav — Add Leads | View Leads */
+/** Mobile bottom nav — Home | Add Leads | View Leads */
 export const mobileBottomNavItems: NavItem[] = [
+  { href: "/dashboard", label: "Home", icon: "home" },
   { href: "/leads/new", label: "Add Leads", icon: "add-lead" },
   { href: "/leads", label: "View Leads", icon: "leads" },
 ];

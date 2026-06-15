@@ -11,21 +11,29 @@ import {
 import {
   acknowledgeMilestone,
   createLead,
+  generateWhatsAppQrForUser,
   getLeadSummary,
   getLeadsForUser,
   getPendingMilestone,
   getRunnerLeadStats,
   getWalletItems,
+  getWhatsAppQrForUser,
   upsertUser,
   verifyLead,
 } from "./store.js";
+import {
+  parseGupshupWebhookBody,
+  processInboundWhatsApp,
+  verifyWebhookSecret,
+} from "./gupshup-webhook.js";
 import { normalizePhone, validateLeadInput } from "./validators.js";
 
 export function buildApp() {
   const app = express();
 
   app.use(cors());
-  app.use(express.json());
+  app.use(express.json({ limit: "1mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
   app.use(async (_req, res, next) => {
     try {
@@ -39,6 +47,41 @@ export function buildApp() {
 
   app.get("/health", (_req, res) => {
     res.json({ ok: true });
+  });
+
+  app.get("/api/webhooks/gupshup/whatsapp", (_req, res) => {
+    res.json({
+      ok: true,
+      message: "Gupshup WhatsApp webhook is active. Use POST for inbound events.",
+    });
+  });
+
+  app.post("/api/webhooks/gupshup/whatsapp", async (req, res) => {
+    const secret = process.env.GUPSHUP_WEBHOOK_SECRET;
+    if (
+      !verifyWebhookSecret(
+        secret,
+        req.query.secret,
+        req.headers["x-webhook-secret"],
+      )
+    ) {
+      return res.status(401).json({ error: "Invalid webhook secret" });
+    }
+
+    try {
+      const parsed = parseGupshupWebhookBody(req.body);
+      if (!parsed) {
+        console.log("[webhook] Ignored non-message event:", req.body);
+        return res.json({ ok: true, ignored: true });
+      }
+
+      const result = await processInboundWhatsApp(parsed);
+      console.log("[webhook] Inbound saved:", result);
+      return res.json({ ok: true, ...result });
+    } catch (err) {
+      console.error("[webhook] Failed:", err);
+      return res.status(500).json({ error: "Webhook processing failed" });
+    }
   });
 
   app.post("/api/v1/auth/sync", async (req, res) => {
@@ -143,6 +186,22 @@ export function buildApp() {
     if (!user) return res.status(401).json({ error: "Unauthorized" });
     const items = await getWalletItems(user.id);
     return res.json({ items });
+  });
+
+  app.get("/api/v1/profile/whatsapp-qr", async (req, res) => {
+    const user = await resolveUser(req);
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    const qr = await getWhatsAppQrForUser(user.id);
+    if (!qr) return res.status(404).json({ error: "User not found" });
+    return res.json(qr);
+  });
+
+  app.post("/api/v1/profile/whatsapp-qr", async (req, res) => {
+    const user = await resolveUser(req);
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    const qr = await generateWhatsAppQrForUser(user.id);
+    if (!qr) return res.status(404).json({ error: "User not found" });
+    return res.json(qr);
   });
 
   app.get("/api/v1/milestones/pending", async (req, res) => {

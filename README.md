@@ -45,6 +45,8 @@ Guide: [docs/DEPLOY.md](./docs/DEPLOY.md)
 
 **Render (alternative):** separate static site + API via `render.yaml`.
 
+**WhatsApp reply webhook:** [docs/WHATSAPP_WEBHOOK.md](./docs/WHATSAPP_WEBHOOK.md)
+
 ## Quick summary
 
 - **Auth:** Firebase Google sign-in (no password / OTP / other providers)

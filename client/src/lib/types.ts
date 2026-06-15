@@ -16,8 +16,16 @@ export interface UserRecord {
   full_name: string;
   photo_url: string | null;
   verified_lead_count: number;
+  whatsapp_qr_url?: string | null;
+  whatsapp_qr_generated_at?: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface WhatsAppQrInfo {
+  generated: boolean;
+  url: string | null;
+  generated_at: string | null;
 }
 
 export interface WalletItem {
