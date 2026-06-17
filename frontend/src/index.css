@@ -1,0 +1,252 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+@theme inline {
+  /* Blue scale */
+  --color-il-blue-10: var(--il-blue-10);
+  --color-il-blue-20: var(--il-blue-20);
+  --color-il-blue-30: var(--il-blue-30);
+  --color-il-blue-40: var(--il-blue-40);
+
+  /* Neutral scale (IL Mobile) */
+  --color-il-neutral-10: var(--il-neutral-10);
+  --color-il-neutral-20: var(--il-neutral-20);
+  --color-il-neutral-50: var(--il-neutral-50);
+  --color-il-neutral-60: var(--il-neutral-60);
+  --color-il-neutral-90: var(--il-neutral-90);
+  --color-il-blue-50: var(--il-blue-50);
+  --color-il-blue-60: var(--il-blue-60);
+  --color-il-blue-70: var(--il-blue-70);
+  --color-il-blue-80: var(--il-blue-80);
+  --color-il-blue-90: var(--il-blue-90);
+  --color-il-blue-95: var(--il-blue-95);
+
+  /* Yellow scale */
+  --color-il-yellow-30: var(--il-yellow-30);
+  --color-il-yellow-50: var(--il-yellow-50);
+  --color-il-yellow-70: var(--il-yellow-70);
+  --color-il-yellow-80: var(--il-yellow-80);
+  --color-il-yellow-90: var(--il-yellow-90);
+  --color-il-yellow-95: var(--il-yellow-95);
+
+  /* Orange / purple accents */
+  --color-il-orange-95: var(--il-orange-95);
+  --color-il-purple-30: var(--il-purple-30);
+  --color-il-purple-90: var(--il-purple-90);
+  --color-il-purple-95: var(--il-purple-95);
+
+  /* Error scale */
+  --color-il-error-50: var(--il-error-50);
+  --color-il-error-95: var(--il-error-95);
+
+  /* Success / warning scale */
+  --color-il-success-50: var(--il-success-50);
+  --color-il-success-95: var(--il-success-95);
+  --color-il-warning-50: var(--il-warning-50);
+  --color-il-warning-95: var(--il-warning-95);
+
+  /* Semantic shortcuts */
+  --color-il-primary: var(--il-primary);
+  --color-il-primary-dark: var(--il-primary-dark);
+  --color-il-primary-light: var(--il-primary-light);
+  --color-il-primary-hover: var(--il-primary-hover);
+  --color-il-white: var(--il-white);
+  --color-il-gray-50: var(--il-gray-50);
+  --color-il-gray-100: var(--il-gray-100);
+  --color-il-gray-400: var(--il-gray-400);
+  --color-il-gray-600: var(--il-gray-600);
+  --color-il-gray-900: var(--il-gray-900);
+  --color-il-success: var(--il-success);
+  --color-il-success-bg: var(--il-success-bg);
+  --color-il-warning: var(--il-warning);
+  --color-il-warning-bg: var(--il-warning-95);
+  --color-il-error: var(--il-error);
+  --color-il-pastel-blue: var(--il-pastel-blue);
+  --color-il-pastel-green: var(--il-pastel-green);
+  --color-il-pastel-yellow: var(--il-pastel-yellow);
+  --color-il-text-primary: var(--il-text-primary);
+  --color-il-text-secondary: var(--il-text-secondary);
+  --color-il-text-muted: var(--il-text-muted);
+  --color-il-bg-navy: var(--il-bg-navy);
+  --color-il-bg-blue-tint: var(--il-bg-blue-tint);
+  --color-il-bg-grey-tint: var(--il-bg-grey-tint);
+
+  --font-sans: "Poppins", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--il-bg-grey-tint);
+  color: var(--il-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.shadow-card {
+  box-shadow: 0 1px 3px rgba(9, 14, 20, 0.08);
+}
+
+.shadow-elevated {
+  box-shadow: 0 4px 12px rgba(9, 14, 20, 0.1);
+}
+
+.bg-il-gradient {
+  background: var(--il-gradient-primary);
+}
+
+/* Token scale utilities for warning/error borders on login */
+.border-il-warning-90 {
+  border-color: var(--il-warning-90);
+}
+.bg-il-warning-95 {
+  background-color: var(--il-warning-95);
+}
+.text-il-warning-40 {
+  color: var(--il-warning-40);
+}
+.border-il-error-90 {
+  border-color: var(--il-error-90);
+}
+.bg-il-error-95 {
+  background-color: var(--il-error-95);
+}
+.text-il-error-50 {
+  color: var(--il-error-50);
+}
+
+/* IL Mobile home — promo carousel card */
+.il-mobile-hero-card {
+  background: linear-gradient(
+    135deg,
+    var(--il-yellow-90) 0%,
+    var(--il-yellow-95) 45%,
+    #fff8e8 100%
+  );
+}
+
+.il-mobile-hero-card::before {
+  content: "";
+  position: absolute;
+  right: -8%;
+  top: -30%;
+  width: 50%;
+  height: 140%;
+  border-radius: 50%;
+  background: var(--il-yellow-70);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* IL home-style yellow hero banner */
+.il-hero-banner {
+  background: linear-gradient(
+    135deg,
+    var(--il-yellow-90) 0%,
+    var(--il-yellow-95) 55%,
+    var(--il-yellow-80) 100%
+  );
+}
+
+/* IL Web login — left brand panel (Figma 51_IL_Mobile 39733:100073) */
+.il-login-web-brand {
+  background-color: #004a99;
+  background-image: url("/login-mobile-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* IL Verified loader — web right panel (Figma 39733:98792) */
+.il-verified-web-panel {
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+}
+
+@keyframes il-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Milestone celebration — soft blue gradient (IL report style) */
+.il-milestone-screen {
+  background: linear-gradient(
+    180deg,
+    #dbeefe 0%,
+    #eef6ff 42%,
+    #f8fbff 72%,
+    #ffffff 100%
+  );
+}
+
+/* IL Mobile — shared blue hero (dashboard, profile, etc.) */
+.il-mobile-login-bg {
+  background-color: var(--il-blue-40);
+  background-image: linear-gradient(
+    180deg,
+    var(--il-blue-40) 0%,
+    var(--il-blue-30) 55%,
+    rgba(1, 47, 99, 0.35) 100%
+  );
+}
+
+/* IL auth split-panel — blue side with plus/dot pattern */
+.il-auth-panel {
+  background-color: var(--il-blue-30);
+  background-image:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.14' stroke-width='1.5'%3E%3Cpath d='M28 20v16M20 28h16'/%3E%3C/g%3E%3Ccircle cx='12' cy='44' r='1.5' fill='%23ffffff' fill-opacity='0.12'/%3E%3Ccircle cx='44' cy='12' r='1.5' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 45%);
+  background-size: 56px 56px, 100% 100%, 100% 100%;
+}
+
+.il-hero-banner::before {
+  content: "";
+  position: absolute;
+  right: -10%;
+  top: -40%;
+  width: 55%;
+  height: 180%;
+  border-radius: 50%;
+  background: var(--il-yellow-70);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+@keyframes il-sheet-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes il-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.il-mobile-menu-sheet {
+  animation: il-sheet-up 0.28s ease-out;
+}
+
+.il-mobile-menu-backdrop {
+  animation: il-fade-in 0.2s ease-out;
+}
+
+/* Scout rewards card */
+.il-rewards-card {
+  box-shadow:
+    0 4px 24px rgba(1, 47, 99, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}

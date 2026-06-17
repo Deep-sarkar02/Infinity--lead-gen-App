@@ -3,24 +3,22 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
-    "dev:client": "npm run dev --prefix client",
-    "dev:server": "npm run dev --prefix server",
-    "build": "npm run build --prefix client",
-    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
     "tunnel": "npx cloudflared tunnel --url http://localhost:5173",
-    "tunnel:api": "npx cloudflared tunnel --url http://localhost:3001"
-  },
-  "dependencies": {
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "mongoose": "^8.19.4"
+    "tunnel:api": "npx cloudflared tunnel --url http://localhost:3001",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "lambda:deploy": "npm run lambda:deploy --prefix backend",
+    "lambda:deploy:guided": "npm run lambda:deploy:guided --prefix backend"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "concurrently": "^9.2.1",
-    "typescript": "^5.9.3"
+    "concurrently": "^9.2.1"
   }
 }

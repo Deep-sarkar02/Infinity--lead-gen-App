@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: ILBTL Gupshup WhatsApp webhook — auto-scaling Lambda Function URL
+
+Parameters:
+  MongoDbUri:
+    Type: String
+    NoEcho: true
+    Description: MongoDB Atlas connection string (infinity_runner database)
+  WebhookSecret:
+    Type: String
+    NoEcho: true
+    Default: ""
+    Description: Optional Gupshup webhook secret (?secret= or x-webhook-secret header)
+  LambdaMemoryMb:
+    Type: Number
+    Default: 512
+    MinValue: 128
+    MaxValue: 10240
+  LambdaTimeoutSec:
+    Type: Number
+    Default: 29
+    MinValue: 3
+    MaxValue: 900
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures:
+      - arm64
+    Tracing: Active
+
+Resources:
+  GupshupWebhookFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ilbtl-gupshup-webhook
+      Description: Gupshup inbound WhatsApp callback — saves replies and verifies leads
+      CodeUri: dist/
+      Handler: handler.handler
+      MemorySize: !Ref LambdaMemoryMb
+      Timeout: !Ref LambdaTimeoutSec
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongoDbUri
+          GUPSHUP_WEBHOOK_SECRET: !Ref WebhookSecret
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowMethods:
+            - GET
+            - POST
+            - HEAD
+          AllowOrigins:
+            - "*"
+          AllowHeaders:
+            - "*"
+      Policies:
+        - AWSLambdaBasicExecutionRole
+
+Outputs:
+  WebhookFunctionUrl:
+    Description: Paste this URL in Gupshup as the callback / journey webhook (HTTPS)
+    Value: !GetAtt GupshupWebhookFunctionUrl.FunctionUrl
+  WebhookUrlWithSecretHint:
+    Description: If WebhookSecret is set, append ?secret=YOUR_SECRET to the URL above
+    Value: !Sub "${GupshupWebhookFunctionUrl.FunctionUrl}?secret=YOUR_SECRET"
+  FunctionName:
+    Description: Lambda function name (for logs in CloudWatch)
+    Value: !Ref GupshupWebhookFunction
+  CloudWatchLogGroup:
+    Description: Log group for webhook invocations
+    Value: !Sub "/aws/lambda/${GupshupWebhookFunction}"

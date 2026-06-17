@@ -1,0 +1,15 @@
+{
+  "name": "ilbtl-gupshup-webhook-lambda",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "validate": "sam validate --lint",
+    "deploy": "npm run build && sam deploy",
+    "deploy:guided": "npm run build && sam deploy --guided",
+    "destroy": "sam delete --stack-name ilbtl-gupshup-webhook"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
+  }
+}

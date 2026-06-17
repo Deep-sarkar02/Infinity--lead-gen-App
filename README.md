@@ -6,51 +6,51 @@ Mobile-first web app (PWA) for **Infinity Learn volunteers** to collect student 
 
 | Document | Description |
 |----------|-------------|
-| [docs/PRD.md](./docs/PRD.md) | Product requirements, user stories, open questions |
-| [docs/TECH_DOC.md](./docs/TECH_DOC.md) | Architecture, data model, APIs, security |
-| [docs/DESIGN_DOC.md](./docs/DESIGN_DOC.md) | UX flows, screens, components, wireframes |
-| [docs/brand-tokens.md](./docs/brand-tokens.md) | IL brand colors, typography, CSS variables (from Figma reference) |
+| [backend/docs/PRD.md](./backend/docs/PRD.md) | Product requirements, user stories, open questions |
+| [backend/docs/TECH_DOC.md](./backend/docs/TECH_DOC.md) | Architecture, data model, APIs, security |
+| [backend/docs/DESIGN_DOC.md](./backend/docs/DESIGN_DOC.md) | UX flows, screens, components, wireframes |
+| [backend/docs/brand-tokens.md](./backend/docs/brand-tokens.md) | IL brand colors, typography, CSS variables |
+| [backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md) | **Production deployment (Docker)** |
+| [backend/docs/DOCKER.md](./backend/docs/DOCKER.md) | Docker quick reference |
 
-## Status
-
-**Draft** — auth confirmed; awaiting senior review on lead verification.
-
-| Decided | Pending |
-|---------|---------|
-| Login via **Firebase Google Authentication only** | Who verifies leads and how |
-| First Google sign-in = automatic registration | — |
-| No volunteer phone — Google profile only | — |
-
-## Quick start (React — recommended)
+## Quick start (development)
 
 ```bash
 npm run install:all
-# Start MongoDB locally, then seed once:
-npm run db:seed --prefix server
+cp .env.example .env
 npm run dev
 ```
 
-- **React app:** [http://localhost:5173](http://localhost:5173)
-- **API:** http://localhost:3001
-- **Database:** MongoDB (`MONGODB_URI` in `server/.env`, default `mongodb://127.0.0.1:27017/infinity_runner`)
+- **App:** http://localhost:5173  
+- **API:** http://localhost:3001  
+- **Env:** single `.env` at project root  
 
-Click **Continue in Demo Mode** on login (no Firebase needed).
+Click **Continue in Demo Mode** on login (no Firebase required).
 
-See [client/README.md](./client/README.md) for details.
+## Project structure
 
-## Deploy (free)
+```
+frontend/   # React PWA (Vite)
+backend/    # Express API (MVC)
+.env        # secrets (gitignored) — copy from .env.example
+docker-compose.yml
+```
 
-**Vercel (whole app):** one project — React PWA + API on the same URL.  
-Guide: [docs/DEPLOY.md](./docs/DEPLOY.md)
+## Production deploy
 
-**Render (alternative):** separate static site + API via `render.yaml`.
+```bash
+cp .env.example .env   # production values on server
+docker compose up --build -d
+```
 
-**WhatsApp reply webhook:** [docs/WHATSAPP_WEBHOOK.md](./docs/WHATSAPP_WEBHOOK.md)
+Full guide: **[backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md)** — MongoDB Atlas, Firebase, HTTPS, webhooks.
 
-## Quick summary
+**WhatsApp webhook:** [backend/docs/WHATSAPP_WEBHOOK.md](./backend/docs/WHATSAPP_WEBHOOK.md) · **AWS Lambda (scale):** [backend/lambda/README.md](./backend/lambda/README.md)
 
-- **Auth:** Firebase Google sign-in (no password / OTP / other providers)
-- **Users:** Infinity volunteers at exam centers
-- **Capture:** Student name + phone only
-- **Lead types:** Verified (counts toward rewards) · Unverified (pending)
-- **Rewards:** Popup + wallet entry at each 100 verified leads milestone
+## Summary
+
+- **Auth:** Firebase Google sign-in
+- **Hosting:** Docker (`frontend` + `backend` containers)
+- **Database:** MongoDB Atlas
+- **Lead capture:** Student name + phone; verified / unverified status
+- **Rewards:** Wallet entry at each 100 verified leads milestone
