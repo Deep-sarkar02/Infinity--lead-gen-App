@@ -11,7 +11,7 @@ One Vercel project hosts **both** the React PWA and the Express API on the same 
 | Part | How |
 |------|-----|
 | React PWA | Static files from `frontend/dist` |
-| Express API | Serverless function at `/api/*` via `api/index.ts` |
+| Express API | Express service at `/api/*` (`backend/src/server.ts`) |
 | Database | MongoDB Atlas |
 | Auth | Firebase |
 
@@ -28,10 +28,10 @@ One Vercel project hosts **both** the React PWA and the Express API on the same 
 
 1. Go to [vercel.com/new](https://vercel.com/new) → **Sign in with GitHub**  
 2. **Import** your repo  
-3. **Important — do not use the “Services” preset.** Set:
-   - **Root Directory:** `.` (repo root)
-   - **Framework Preset:** **Other** (uses `vercel.json` — one Vite build + serverless API)
-   - If Vercel already created a Services project, go to **Settings → General → Framework** and switch to **Other**, or delete the project and re-import.
+3. Vercel detects **Services** from `vercel.json` — confirm:
+   - **Root Directory:** `.` (repo root) — must show a green checkmark
+   - **frontend** → `frontend/` at `/`
+   - **backend** → `backend/` at `/api` (not `/_/backend`)
 
 ### 3. Environment variables
 
@@ -112,8 +112,8 @@ Browser
    ▼
 ┌─────────────────────────────────────┐
 │  Vercel (same domain)               │
-│  frontend/dist  +  api/index.ts     │
-│  /              +  /api/*  /health  │
+│  frontend (Vite)  +  backend (Express) │
+│  /                +  /api/*            │
 └──────────────────┬──────────────────┘
                    │
                    ▼

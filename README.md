@@ -38,7 +38,7 @@ docker-compose.yml
 
 ## Production deploy
 
-**Vercel (recommended for now):** import at [vercel.com/new](https://vercel.com/new) with **Root Directory `.`** and **Framework Preset: Other** (not Services). `vercel.json` builds the PWA and serverless API on one domain.
+**Vercel:** import at [vercel.com/new](https://vercel.com/new) — **Root Directory `.`**, Services preset (from `vercel.json`). Backend must mount at `/api`. Set env vars from `.env.example` (do **not** set `VITE_API_URL`).
 
 **Docker (self-hosted):**
 
@@ -54,7 +54,7 @@ Full guide: **[backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md)** — Vercel, D
 ## Summary
 
 - **Auth:** Firebase Google sign-in
-- **Hosting:** Vercel (PWA + serverless API) or Docker (`frontend` + `backend` containers)
+- **Hosting:** Vercel (Services: Vite + Express at `/api`) or Docker (`frontend` + `backend` containers)
 - **Database:** MongoDB Atlas
 - **Lead capture:** Student name + phone; verified / unverified status
 - **Rewards:** Wallet entry at each 100 verified leads milestone
