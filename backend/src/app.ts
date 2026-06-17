@@ -53,7 +53,12 @@ export function buildApp() {
   app.get("/api/health", healthCheck);
 
   app.use(ensureDatabase);
+  // Docker/nginx sends /api/* with the prefix. Vercel Services strips routePrefix
+  // (/api) before the request hits Express, so also mount at / when on Vercel.
   app.use("/api", apiRoutes);
+  if (process.env.VERCEL) {
+    app.use("/", apiRoutes);
+  }
   app.use(errorHandler);
 
   return app;

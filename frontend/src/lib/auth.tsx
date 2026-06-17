@@ -233,7 +233,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       data = JSON.parse(text) as typeof data;
     } catch {
-      throw new Error(text || "Demo sign-in failed");
+      throw new Error(
+        res.status === 404
+          ? "API not found — check Vercel backend is deployed at /api"
+          : "Demo sign-in failed",
+      );
     }
     if (!res.ok) throw new Error(data.error ?? "Demo sign-in failed");
     if (!data.user || !data.summary) {
