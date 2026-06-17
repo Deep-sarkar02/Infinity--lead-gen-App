@@ -10,7 +10,7 @@ Mobile-first web app (PWA) for **Infinity Learn volunteers** to collect student 
 | [backend/docs/TECH_DOC.md](./backend/docs/TECH_DOC.md) | Architecture, data model, APIs, security |
 | [backend/docs/DESIGN_DOC.md](./backend/docs/DESIGN_DOC.md) | UX flows, screens, components, wireframes |
 | [backend/docs/brand-tokens.md](./backend/docs/brand-tokens.md) | IL brand colors, typography, CSS variables |
-| [backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md) | **Production deployment (Docker)** |
+| [backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md) | **Production deployment (Vercel + Docker)** |
 | [backend/docs/DOCKER.md](./backend/docs/DOCKER.md) | Docker quick reference |
 
 ## Quick start (development)
@@ -38,19 +38,23 @@ docker-compose.yml
 
 ## Production deploy
 
+**Vercel (recommended for now):** import the GitHub repo at [vercel.com/new](https://vercel.com/new) — `vercel.json` builds the PWA and Express API on one domain. Set env vars from `.env.example` in the Vercel dashboard (do **not** set `VITE_API_URL`).
+
+**Docker (self-hosted):**
+
 ```bash
-cp .env.example .env   # production values on server
+cp .env.example .env
 docker compose up --build -d
 ```
 
-Full guide: **[backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md)** — MongoDB Atlas, Firebase, HTTPS, webhooks.
+Full guide: **[backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md)** — Vercel, Docker, MongoDB Atlas, Firebase, webhooks.
 
 **WhatsApp webhook:** [backend/docs/WHATSAPP_WEBHOOK.md](./backend/docs/WHATSAPP_WEBHOOK.md) · **AWS Lambda (scale):** [backend/lambda/README.md](./backend/lambda/README.md)
 
 ## Summary
 
 - **Auth:** Firebase Google sign-in
-- **Hosting:** Docker (`frontend` + `backend` containers)
+- **Hosting:** Vercel (PWA + serverless API) or Docker (`frontend` + `backend` containers)
 - **Database:** MongoDB Atlas
 - **Lead capture:** Student name + phone; verified / unverified status
 - **Rewards:** Wallet entry at each 100 verified leads milestone

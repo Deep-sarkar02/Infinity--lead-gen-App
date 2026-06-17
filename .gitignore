@@ -36,6 +36,9 @@ lerna-debug.log*
 .DS_Store
 Thumbs.db
 
+# Vercel local CLI
+.vercel/
+
 # Editors
 .idea/
 .vscode/*

@@ -1,13 +1,14 @@
-# WhatsApp webhook — local, Docker & AWS Lambda
+# WhatsApp webhook — local, Vercel, Docker & AWS Lambda
 
-Gupshup sends inbound WhatsApp replies to your API. This guide covers **local**, **Docker production**, and **AWS Lambda** (optional — auto-scales under high load).
+Gupshup sends inbound WhatsApp replies to your API. This guide covers **local**, **Vercel**, **Docker production**, and **AWS Lambda** (optional — auto-scales under high load).
 
 ## Webhook URL
 
 | Environment | URL |
 |-------------|-----|
-| **AWS Lambda** (recommended) | `https://xxxx.lambda-url.REGION.on.aws/` — see [lambda/README.md](../lambda/README.md) |
+| **Vercel** | `https://YOUR-APP.vercel.app/api/webhooks/gupshup/whatsapp` |
 | **Docker production** | `https://YOUR-DOMAIN/api/webhooks/gupshup/whatsapp` |
+| **AWS Lambda** (high volume) | `https://xxxx.lambda-url.REGION.on.aws/` — see [lambda/README.md](../lambda/README.md) |
 | **Local** (via tunnel) | `https://YOUR-TUNNEL.trycloudflare.com/api/webhooks/gupshup/whatsapp` |
 
 `GET` on that URL returns `{ ok: true }` — use it to verify the route is live.
