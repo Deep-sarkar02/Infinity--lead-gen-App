@@ -38,7 +38,7 @@ docker-compose.yml
 
 ## Production deploy
 
-**Vercel (recommended for now):** import the GitHub repo at [vercel.com/new](https://vercel.com/new) — `vercel.json` builds the PWA and Express API on one domain. Set env vars from `.env.example` in the Vercel dashboard (do **not** set `VITE_API_URL`).
+**Vercel (recommended for now):** import at [vercel.com/new](https://vercel.com/new) with **Root Directory `.`** and **Framework Preset: Other** (not Services). `vercel.json` builds the PWA and serverless API on one domain.
 
 **Docker (self-hosted):**
 
