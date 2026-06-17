@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type Request, type Response } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { ensureDatabase } from "./middleware/database.middleware.js";
@@ -38,7 +38,7 @@ export function buildApp() {
   app.use(express.json({ limit: "1mb" }));
   app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 
-  app.get("/health", (_req, res) => {
+  const healthCheck = (_req: Request, res: Response) => {
     const dbReady = mongoose.connection.readyState === 1;
     if (!dbReady) {
       return res.status(503).json({
@@ -47,7 +47,10 @@ export function buildApp() {
       });
     }
     return res.json({ ok: true, db: "connected" });
-  });
+  };
+
+  app.get("/health", healthCheck);
+  app.get("/api/health", healthCheck);
 
   app.use(ensureDatabase);
   app.use("/api", apiRoutes);
