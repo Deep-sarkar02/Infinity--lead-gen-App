@@ -6,7 +6,7 @@ import {
   OtpResendCooldownError,
   OtpSessionNotFoundError,
 } from "../utils/errors.js";
-import { generateLeadOtp, sendLeadOtpWhatsApp } from "../services/gupshup.service.js";
+import { generateLeadOtp, isLeadOtpWhatsAppConfigured, sendLeadOtpWhatsApp } from "../services/gupshup.service.js";
 import {
   resendLeadOtpSession,
   savePendingLeadFromSession,
@@ -38,6 +38,12 @@ export async function sendOtp(req: Request, res: Response) {
     req.body.student_phone ?? "",
   );
   if (error) return res.status(400).json({ error });
+
+  if (!isLeadOtpWhatsAppConfigured()) {
+    return res.status(503).json({
+      error: "WhatsApp OTP not configured (set GUPSHUP_OTP_API_KEY in server env)",
+    });
+  }
 
   try {
     const otp = generateLeadOtp();
@@ -83,6 +89,12 @@ export async function resendOtp(req: Request, res: Response) {
   const phone = normalizePhone(String(req.body.student_phone ?? ""));
   if (!isValidIndianMobile(phone)) {
     return res.status(400).json({ error: "Enter a valid 10-digit mobile number." });
+  }
+
+  if (!isLeadOtpWhatsAppConfigured()) {
+    return res.status(503).json({
+      error: "WhatsApp OTP not configured (set GUPSHUP_OTP_API_KEY in server env)",
+    });
   }
 
   try {

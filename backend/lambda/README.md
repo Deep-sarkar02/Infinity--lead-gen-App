@@ -127,4 +127,4 @@ npm run destroy
 | **Docker production** | `https://YOUR-DOMAIN/api/webhooks/gupshup/whatsapp` |
 | **AWS Lambda** | `https://xxxx.lambda-url.REGION.on.aws/` |
 
-Use **Lambda** for production Gupshup callbacks when you want dedicated auto-scaling without coupling to the main app deploy.
+Use **Lambda** for production Gupshup callbacks when DevOps has deployed it. Until then, use the Docker URL. Use **one** callback only.

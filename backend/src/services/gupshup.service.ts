@@ -23,6 +23,10 @@ export function generateLeadOtp(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
 
+export function isLeadOtpWhatsAppConfigured(): boolean {
+  return Boolean(process.env.GUPSHUP_OTP_API_KEY?.trim());
+}
+
 /** @deprecated Use generateLeadOtp */
 export const generateDemoOtp = generateLeadOtp;
 
@@ -52,7 +56,11 @@ export async function sendLeadOtpWhatsApp(input: {
 
   if (!apikey) {
     console.warn("[gupshup-otp] GUPSHUP_OTP_API_KEY not set — OTP WhatsApp skipped");
-    return { ok: false, skipped: true, error: "WhatsApp not configured" };
+    return {
+      ok: false,
+      skipped: true,
+      error: "WhatsApp OTP not configured (set GUPSHUP_OTP_API_KEY)",
+    };
   }
 
   const destination = formatIndianMsisdn(input.phone);

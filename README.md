@@ -10,8 +10,9 @@ Mobile-first web app (PWA) for **Infinity Learn volunteers** to collect student 
 | [backend/docs/TECH_DOC.md](./backend/docs/TECH_DOC.md) | Architecture, data model, APIs, security |
 | [backend/docs/DESIGN_DOC.md](./backend/docs/DESIGN_DOC.md) | UX flows, screens, components, wireframes |
 | [backend/docs/brand-tokens.md](./backend/docs/brand-tokens.md) | IL brand colors, typography, CSS variables |
-| [backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md) | **Production deployment (Vercel + Docker)** |
+| [backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md) | **Production deployment (Docker)** |
 | [backend/docs/DOCKER.md](./backend/docs/DOCKER.md) | Docker quick reference |
+| [backend/lambda/DEVOPS.md](./backend/lambda/DEVOPS.md) | DevOps runbook — Gupshup webhook Lambda |
 
 ## Quick start (development)
 
@@ -32,29 +33,27 @@ Click **Continue in Demo Mode** on login (no Firebase required).
 ```
 frontend/   # React PWA (Vite)
 backend/    # Express API (MVC)
+backend/lambda/  # AWS Lambda — Gupshup webhook (auto-scaling)
 .env        # secrets (gitignored) — copy from .env.example
 docker-compose.yml
 ```
 
 ## Production deploy
 
-**Vercel:** import at [vercel.com/new](https://vercel.com/new) — **Root Directory `.`**, Services preset (from `vercel.json`). Backend must mount at `/api`. Set env vars from `.env.example` (do **not** set `VITE_API_URL`).
-
-**Docker (self-hosted):**
-
 ```bash
-cp .env.example .env
+cp .env.example .env   # production values on server
 docker compose up --build -d
 ```
 
-Full guide: **[backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md)** — Vercel, Docker, MongoDB Atlas, Firebase, webhooks.
+Full guide: **[backend/docs/DEPLOY.md](./backend/docs/DEPLOY.md)** — Docker, HTTPS, MongoDB Atlas, Firebase, Gupshup.
 
-**WhatsApp webhook:** [backend/docs/WHATSAPP_WEBHOOK.md](./backend/docs/WHATSAPP_WEBHOOK.md) · **AWS Lambda (scale):** [backend/lambda/README.md](./backend/lambda/README.md)
+**WhatsApp webhook (Gupshup callback):** [backend/docs/WHATSAPP_WEBHOOK.md](./backend/docs/WHATSAPP_WEBHOOK.md) · **Lambda (DevOps):** [backend/lambda/DEVOPS.md](./backend/lambda/DEVOPS.md)
 
 ## Summary
 
 - **Auth:** Firebase Google sign-in
-- **Hosting:** Vercel (Services: Vite + Express at `/api`) or Docker (`frontend` + `backend` containers)
+- **Hosting:** Docker (`frontend` + `backend` containers)
+- **Webhook:** AWS Lambda Function URL (recommended) or Docker `/api/webhooks/...`
 - **Database:** MongoDB Atlas
 - **Lead capture:** Student name + phone; verified / unverified status
 - **Rewards:** Wallet entry at each 100 verified leads milestone

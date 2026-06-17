@@ -235,7 +235,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {
       throw new Error(
         res.status === 404
-          ? "API not found — check Vercel backend is deployed at /api"
+          ? "API not found — check the backend is running and /api is reachable"
           : "Demo sign-in failed",
       );
     }
